@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artista Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --sand: #E8DCCB;
+    --sage: #8A9E7E;
+    --sage-light: #C5D4BC;
+    --earth: #C4956A;
+    --earth-dark: #9B7248;
+    --charcoal: #2C2C2C;
+    --charcoal-light: #5A5A5A;
+    --nav-width: 220px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ===== TEXTURA DE PAPEL ===== */
+  .paper {
+    position: relative;
+  }
+  .paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .paper-lines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.025;
+    background-image: repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 3px,
+      rgba(44,44,44,0.8) 3px,
+      rgba(44,44,44,0.8) 3.5px
+    );
+  }
+
+  /* NAVEGACIÓN LATERAL */
+  .nav-sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: var(--nav-width);
+    height: 100vh;
+    background: var(--cream);
+    border-right: 1px solid var(--sand);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1.5rem;
+    z-index: 100;
+  }
+
+  .nav-sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .nav-logo {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: var(--sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+    border: 2px solid var(--sage-light);
+    position: relative;
+    z-index: 2;
+  }
+
+  .nav-logo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  .nav-logo-placeholder {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: var(--charcoal-light);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .nav-links a {
+    display: block;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--charcoal-light);
+    padding: 0.6rem 0.75rem;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .nav-links a::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 1px;
+    background: var(--earth);
+    transition: width 0.25s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--earth); padding-left: 1.25rem; }
+
+  .nav-links a:hover::before,
+  .nav-links a.active::before { width: 8px; }
+
+  .nav-social {
+    margin-top: auto;
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .nav-social a {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--charcoal-light); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-social a:hover { color: var(--earth); }
+
+  /* MENÚ MÓVIL */
+  .nav-toggle {
+    display: none;
+    position: fixed;
+    top: 1.25rem; left: 1.25rem;
+    z-index: 200;
+    background: var(--cream);
+    border: 1px solid var(--sand);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 18px; height: 1.5px;
+    background: var(--charcoal);
+    transition: all 0.3s;
+  }
+
+  /* CONTENIDO PRINCIPAL */
+  .main { margin-left: var(--nav-width); }
+
+  section { display: none; min-height: 100vh; }
+  section.active { display: block; }
+
+  /* ========== INICIO ========== */
+  .hero {
+    position: relative;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 4rem;
+    background: linear-gradient(135deg, #E8DCCB 0%, #D4C4A8 40%, #C5B896 100%);
+  }
+
+  .hero-pattern { position: absolute; inset: 0; }
+
+  .hero-paper {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .hero-circles {
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    border: 1px solid rgba(138,158,126,0.3);
+  }
+  .hero-circles::before {
+    content: '';
+    position: absolute;
+    top: 60px; left: 60px; right: 60px; bottom: 60px;
+    border-radius: 50%;
+    border: 1px solid rgba(138,158,126,0.2);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 600px; }
+
+  .hero-eyebrow {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--earth-dark); margin-bottom: 1.25rem;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 300; line-height: 0.95;
+    color: var(--charcoal); margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--earth); }
+
+  .hero-subtitle {
+    font-size: 14px; color: var(--charcoal-light);
+    max-width: 360px; line-height: 1.8; margin-bottom: 2rem;
+  }
+
+  .btn-primary {
+    display: inline-block; text-decoration: none;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cream); background: var(--charcoal);
+    padding: 0.85rem 2rem; border: none; cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover { background: var(--earth); }
+
+  .btn-outline {
+    display: inline-block; text-decoration: none;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--charcoal); background: transparent;
+    padding: 0.85rem 2rem; border: 1px solid var(--charcoal);
+    cursor: pointer; transition: all 0.3s ease;
+  }
+  .btn-outline:hover { background: var(--charcoal); color: var(--cream); }
+
+  .hero-scroll {
+    position: absolute; right: 3rem; bottom: 3rem;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+  }
+  .hero-scroll span {
+    font-size: 9px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--charcoal-light);
+    writing-mode: vertical-rl;
+  }
+  .hero-scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--earth), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* SECCIÓN GENERAL */
+  .section-block { padding: 5rem 4rem; position: relative; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--earth); margin-bottom: 1rem; display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300; color: var(--charcoal); margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--sage); }
+
+  .section-desc {
+    font-size: 14px; color: var(--charcoal-light);
+    max-width: 500px; line-height: 1.9; margin-bottom: 3rem;
+  }
+
+  /* GALERÍA */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 320px 240px;
+    gap: 12px;
+  }
+  .gallery-item { overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-item:first-child { grid-row: 1 / 3; }
+
+  .gallery-item-inner {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.5s ease;
+    position: relative; overflow: hidden;
+  }
+  .gallery-item:hover .gallery-item-inner { transform: scale(1.03); }
+
+  .gallery-placeholder {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; color: rgba(44,44,44,0.3);
+    letter-spacing: 0.1em; text-align: center;
+  }
+
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: rgba(44,44,44,0);
+    display: flex; align-items: flex-end; padding: 1.5rem;
+    transition: background 0.3s ease;
+  }
+  .gallery-item:hover .gallery-overlay { background: rgba(44,44,44,0.4); }
+
+  .gallery-info { opacity: 0; transform: translateY(8px); transition: all 0.3s ease; color: white; }
+  .gallery-item:hover .gallery-info { opacity: 1; transform: translateY(0); }
+  .gallery-info h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; }
+  .gallery-info p { font-size: 11px; opacity: 0.8; letter-spacing: 0.05em; }
+
+  .gallery-item:nth-child(1) .gallery-item-inner { background: #D4C4A8; }
+  .gallery-item:nth-child(2) .gallery-item-inner { background: #C5D4BC; }
+  .gallery-item:nth-child(3) .gallery-item-inner { background: #C4956A; opacity: 0.7; }
+  .gallery-item:nth-child(4) .gallery-item-inner { background: #B8C9AE; }
+  .gallery-item:nth-child(5) .gallery-item-inner { background: #CCBDA0; }
+
+  /* FRANJA ARTISTA */
+  .about-strip {
+    background: var(--charcoal);
+    padding: 5rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-strip::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .about-strip > * { position: relative; z-index: 1; }
+
+  .about-strip-img {
+    height: 420px; background: var(--charcoal-light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 0.1em;
+    overflow: hidden;
+  }
+  .about-strip-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .about-strip-text .section-label { color: var(--sage-light); }
+  .about-strip-text .section-title { color: var(--cream); }
+  .about-strip-text .section-desc { color: rgba(250,247,242,0.6); }
+
+  /* ========== TIENDA ========== */
+  .page-header {
+    padding: 5rem 4rem 3rem;
+    border-bottom: 1px solid var(--sand);
+    position: relative;
+  }
+
+  .products-grid {
+    padding: 3rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+  }
+
+  .product-card { cursor: pointer; transition: transform 0.3s ease; }
+  .product-card:hover { transform: translateY(-4px); }
+
+  .product-img {
+    aspect-ratio: 3/4; margin-bottom: 1rem;
+    overflow: hidden; position: relative;
+  }
+  .product-img-inner {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; color: rgba(44,44,44,0.25); letter-spacing: 0.08em;
+    transition: transform 0.5s ease;
+  }
+  .product-img-inner img { width: 100%; height: 100%; object-fit: cover; }
+  .product-card:hover .product-img-inner { transform: scale(1.04); }
+
+  .p1 .product-img-inner { background: #D8CCBA; }
+  .p2 .product-img-inner { background: #C8D4BE; }
+  .p3 .product-img-inner { background: #DACCB4; }
+  .p4 .product-img-inner { background: #BFC9B5; }
+  .p5 .product-img-inner { background: #CCBDA0; }
+  .p6 .product-img-inner { background: #C2D0B8; }
+
+  .product-tag { font-size: 9px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--earth); margin-bottom: 0.3rem; }
+  .product-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--charcoal); margin-bottom: 0.25rem; }
+  .product-price { font-size: 13px; color: var(--charcoal-light); }
+  .product-buy {
+    display: inline-block; margin-top: 0.75rem;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--charcoal); cursor: pointer; background: none;
+    border: none; border-bottom: 1px solid var(--charcoal); padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+  .product-buy:hover { color: var(--earth); border-color: var(--earth); }
+
+  /* ========== CURSOS ========== */
+  .cursos-intro {
+    padding: 5rem 4rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: end;
+    border-bottom: 1px solid var(--sand);
+    position: relative;
+  }
+
+  .cursos-grid { padding: 3rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  .curso-card {
+    border: 1px solid var(--sand);
+    padding: 2rem; transition: border-color 0.3s ease;
+    cursor: pointer; position: relative; overflow: hidden;
+    background: var(--cream);
+  }
+  .curso-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .curso-card > * { position: relative; z-index: 1; }
+  .curso-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--sage);
+    transition: width 0.4s ease;
+    z-index: 2;
+  }
+  .curso-card:hover { border-color: var(--sage); }
+  .curso-card:hover::after { width: 100%; }
+
+  .curso-badge {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 1.25rem;
+  }
+  .badge-virtual { background: #EAF3DE; color: #3B6D11; }
+  .badge-presencial { background: #FAECE7; color: #993C1D; }
+  .badge-online { background: #E1F5EE; color: #0F6E56; }
+
+  .curso-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; color: var(--charcoal); margin-bottom: 0.75rem; }
+  .curso-desc { font-size: 13px; color: var(--charcoal-light); line-height: 1.8; margin-bottom: 1.5rem; }
+  .curso-meta { display: flex; gap: 1.5rem; font-size: 11px; color: var(--charcoal-light); flex-wrap: wrap; }
+  .curso-meta strong { display: block; font-size: 14px; font-weight: 500; color: var(--charcoal); }
+
+  /* ========== SOBRE MÍ ========== */
+  .sobre-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
+
+  .sobre-img {
+    background: var(--sand); min-height: 500px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; color: rgba(44,44,44,0.25); letter-spacing: 0.1em;
+    position: relative; overflow: hidden;
+  }
+  .sobre-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .sobre-img::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .sobre-text { padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; position: relative; }
+
+  .sobre-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; font-style: italic;
+    color: var(--charcoal); line-height: 1.5;
+    margin-bottom: 2rem;
+    border-left: 2px solid var(--sage); padding-left: 1.5rem;
+  }
+  .sobre-bio { font-size: 14px; color: var(--charcoal-light); line-height: 1.9; margin-bottom: 1.5rem; }
+
+  .sobre-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; padding: 4rem;
+    background: var(--sand);
+    position: relative; overflow: hidden;
+  }
+  .sobre-stats::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .sobre-stats > * { position: relative; z-index: 1; }
+
+  .stat { text-align: center; padding: 2rem 1rem; background: var(--cream); position: relative; overflow: hidden; }
+  .stat::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--earth); display: block; margin-bottom: 0.25rem; position: relative; }
+  .stat-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal-light); position: relative; }
+
+  /* ========== CONTACTO ========== */
+  .contacto-layout { display: grid; grid-template-columns: 1fr 1.2fr; min-height: 100vh; }
+
+  .contacto-left {
+    background: var(--charcoal);
+    padding: 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .contacto-left::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .contacto-left > * { position: relative; z-index: 1; }
+
+  .contacto-left .section-label { color: var(--sage-light); }
+  .contacto-left .section-title { color: var(--cream); font-size: clamp(32px, 3.5vw, 48px); }
+  .contacto-left .section-desc { color: rgba(250,247,242,0.55); }
+
+  .contacto-info { margin-top: 3rem; }
+  .contacto-info-item { padding: 1.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .contacto-info-label { font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage-light); margin-bottom: 0.3rem; }
+  .contacto-info-value { font-size: 14px; color: var(--cream); }
+
+  .contacto-right { padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; position: relative; }
+
+  .form-group { margin-bottom: 1.75rem; }
+  .form-label { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--charcoal-light); margin-bottom: 0.5rem; }
+  .form-input, .form-textarea {
+    width: 100%; border: none; border-bottom: 1px solid var(--sand);
+    background: transparent; padding: 0.75rem 0;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--charcoal); outline: none; transition: border-color 0.3s;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--earth); }
+  .form-textarea { resize: none; height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--charcoal); padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .footer::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  .footer > * { position: relative; z-index: 1; }
+
+  .footer-text { font-size: 11px; color: rgba(250,247,242,0.35); letter-spacing: 0.05em; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,247,242,0.35); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--cream); }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    :root { --nav-width: 0px; }
+    .nav-sidebar { transform: translateX(-100%); width: 260px; transition: transform 0.3s ease; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+    .nav-sidebar.open { transform: translateX(0); }
+    .nav-toggle { display: flex; }
+    .main { margin-left: 0; }
+    .hero { padding: 6rem 1.5rem 3rem; height: auto; min-height: 80vh; }
+    .section-block { padding: 3rem 1.5rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child { grid-row: auto; grid-column: 1 / 3; height: 300px; }
+    .about-strip { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2rem; }
+    .about-strip-img { height: 280px; }
+    .products-grid { grid-template-columns: 1fr 1fr; padding: 2rem 1.5rem; }
+    .cursos-intro { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 1.5rem; }
+    .cursos-grid { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .sobre-hero { grid-template-columns: 1fr; }
+    .sobre-img { min-height: 300px; }
+    .sobre-text { padding: 3rem 1.5rem; }
+    .sobre-stats { padding: 2rem 1.5rem; grid-template-columns: repeat(3, 1fr); }
+    .contacto-layout { grid-template-columns: 1fr; }
+    .contacto-left, .contacto-right { padding: 3rem 1.5rem; }
+    .footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .page-header { padding: 3rem 1.5rem 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-scroll { display: none; }
+  }
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .sobre-stats { grid-template-columns: 1fr; }
+    .cursos-intro { padding: 4rem 1.5rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOGGLE MÓVIL -->
+<button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- NAVEGACIÓN LATERAL -->
+<nav class="nav-sidebar" id="sidebar">
+  <div class="nav-logo">
+    <!-- REEMPLAZAR con tu logo: <img src="logo.png" alt="Logo"> -->
+    <div class="nav-logo-placeholder">LOGO<br>ARTISTA</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="active" data-section="inicio">Inicio</a></li>
+    <li><a href="#" data-section="tienda">Tienda</a></li>
+    <li><a href="#" data-section="cursos">Cursos</a></li>
+    <li><a href="#" data-section="sobre">Sobre mí</a></li>
+    <li><a href="#" data-section="contacto">Contacto</a></li>
+  </ul>
+  <div class="nav-social">
+    <!-- REEMPLAZAR con tus links reales -->
+    <a href="https://instagram.com/tu_usuario" target="_blank">IG</a>
+    <a href="https://facebook.com/tu_usuario" target="_blank">FB</a>
+  </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="main">
+
+  <!-- ========== INICIO ========== -->
+  <section id="inicio" class="active">
+
+    <div class="hero">
+      <!-- Patrón geométrico de fondo -->
+      <div class="hero-pattern">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="cross" width="30" height="30" patternUnits="userSpaceOnUse">
+              <path d='M16 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z' fill='%232C2C2C' opacity='0.07'/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#cross)"/>
+        </svg>
+      </div>
+      <!-- Textura de papel sobre el hero -->
+      <div class="hero-paper"></div>
+      <div class="hero-circles"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Arte visual · Obra original</p>
+        <!-- REEMPLAZAR con nombre real -->
+        <h1 class="hero-title">Arte que<br><em>transforma</em></h1>
+        <p class="hero-subtitle">Obras que nacen del silencio y la observación. Piezas únicas para habitar espacios con intención.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <button class="btn-primary" onclick="navTo('tienda')">Ver obras</button>
+          <button class="btn-outline" onclick="navTo('sobre')">Conocerme</button>
+        </div>
+      </div>
+
+      <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Explorar</span>
+      </div>
+    </div>
+
+    <div class="section-block paper paper-lines">
+      <span class="section-label">Obras recientes</span>
+      <h2 class="section-title">Piezas <em>seleccionadas</em></h2>
+      <p class="section-desc">Una selección de obras originales disponibles para coleccionar. Cada pieza lleva consigo una historia, una emoción, un instante capturado.</p>
+      <div class="gallery-grid">
+        <!-- REEMPLAZAR src con rutas reales a las imágenes de las obras -->
+        <div class="gallery-item">
+          <div class="gallery-item-inner"><div class="gallery-placeholder">Imagen obra</div></div>
+          <div class="gallery-overlay"><div class="gallery-info"><h4>Serie Vegetal I</h4><p>Acrílico sobre lienzo · 80×100 cm</p></div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-inner"><div class="gallery-placeholder">Imagen obra</div></div>
+          <div class="gallery-overlay"><div class="gallery-info"><h4>Raíces</h4><p>Tinta y acuarela · 40×50 cm</p></div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-inner"><div class="gallery-placeholder">Imagen obra</div></div>
+          <div class="gallery-overlay"><div class="gallery-info"><h4>Luz de tarde</h4><p>Óleo · 60×80 cm</p></div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-inner"><div class="gallery-placeholder">Imagen obra</div></div>
+          <div class="gallery-overlay"><div class="gallery-info"><h4>Silencio verde</h4><p>Mixta · 50×50 cm</p></div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-inner"><div class="gallery-placeholder">Imagen obra</div></div>
+          <div class="gallery-overlay"><div class="gallery-info"><h4>Expansión</h4><p>Acrílico · 70×90 cm</p></div></div>
+        </div>
+      </div>
+      <div style="margin-top:2rem;">
+        <button class="btn-outline" onclick="navTo('tienda')">Ver toda la colección</button>
+      </div>
+    </div>
+
+    <div class="about-strip">
+      <div class="about-strip-img">
+        <!-- REEMPLAZAR con foto real: <img src="foto-artista.jpg" alt="Nombre artista"> -->
+        Foto de la artista
+      </div>
+      <div class="about-strip-text">
+        <span class="section-label">La artista</span>
+        <h2 class="section-title">El arte como <em>lenguaje</em></h2>
+        <p class="section-desc">Cada obra nace de un diálogo entre el cuerpo, la materia y el espacio. Un proceso de escucha que se convierte en imagen.</p>
+        <button class="btn-outline" style="color:var(--cream); border-color:rgba(255,255,255,0.3);" onclick="navTo('sobre')">Leer más sobre mí</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========== TIENDA ========== -->
+  <section id="tienda">
+    <div class="page-header paper paper-lines">
+      <span class="section-label">Colección disponible</span>
+      <h1 class="section-title">Tienda</h1>
+      <p class="section-desc" style="margin-bottom:0;">Obras originales, prints y ediciones especiales. Cada pieza llega a tu espacio con certificado de autenticidad.</p>
+    </div>
+    <div class="products-grid paper paper-lines">
+
+      <div class="product-card p1">
+        <div class="product-img"><div class="product-img-inner">Imagen obra</div></div>
+        <p class="product-tag">Obra original</p>
+        <h3 class="product-name">Serie Vegetal I</h3>
+        <p class="product-price">Gs. 1.200.000</p>
+        <button class="product-buy">Consultar disponibilidad</button>
+      </div>
+
+      <div class="product-card p2">
+        <div class="product-img"><div class="product-img-inner">Imagen obra</div></div>
+        <p class="product-tag">Print</p>
+        <h3 class="product-name">Raíces</h3>
+        <p class="product-price">Gs. 350.000</p>
+        <button class="product-buy">Agregar al carrito</button>
+      </div>
+
+      <div class="product-card p3">
+        <div class="product-img"><div class="product-img-inner">Imagen obra</div></div>
+        <p class="product-tag">Obra original</p>
+        <h3 class="product-name">Luz de tarde</h3>
+        <p class="product-price">Gs. 980.000</p>
+        <button class="product-buy">Consultar disponibilidad</button>
+      </div>
+
+      <div class="product-card p4">
+        <div class="product-img"><div class="product-img-inner">Imagen obra</div></div>
+        <p class="product-tag">Edición limitada</p>
+        <h3 class="product-name">Silencio verde</h3>
+        <p class="product-price">Gs. 550.000</p>
+        <button class="product-buy">Agregar al carrito</button>
+      </div>
+
+      <div class="product-card p5">
+        <div class="product-img"><div class="product-img-inner">Imagen obra</div></div>
+        <p class="product-tag">Obra original</p>
+        <h3 class="product-name">Expansión</h3>
+        <p class="product-price">Gs. 1.500.000</p>
+        <button class="product-buy">Consultar disponibilidad</button>
+      </div>
+
+      <div class="product-card p6">
+        <div class="product-img"><div class="product-img-inner">Imagen obra</div></div>
+        <p class="product-tag">Print</p>
+        <h3 class="product-name">Campo abierto</h3>
+        <p class="product-price">Gs. 320.000</p>
+        <button class="product-buy">Agregar al carrito</button>
+      </div>
+
+    </div>
+    <div class="footer">
+      <p class="footer-text">© 2024 · Artista Visual</p>
+      <div class="footer-links">
+        <a href="#" onclick="navTo('contacto')">Envíos y devoluciones</a>
+        <a href="#" onclick="navTo('contacto')">Encargos especiales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CURSOS ========== -->
+  <section id="cursos">
+    <div class="cursos-intro paper paper-lines">
+      <div>
+        <span class="section-label">Aprendé conmigo</span>
+        <h1 class="section-title">Cursos <em>& talleres</em></h1>
+      </div>
+      <p class="section-desc" style="margin-bottom:0; align-self:end;">Espacios de creación donde la técnica y la experiencia se encuentran. Grupos pequeños para una atención personalizada.</p>
+    </div>
+    <div class="cursos-grid paper paper-lines">
+
+      <div class="curso-card">
+        <span class="curso-badge badge-virtual">Virtual</span>
+        <h3 class="curso-title">Introducción al color</h3>
+        <p class="curso-desc">Un viaje por la teoría del color aplicada a la práctica artística. Aprenderás a mezclar, contrastar y crear armonías únicas.</p>
+        <div class="curso-meta">
+          <div><strong>8 semanas</strong>Duración</div>
+          <div><strong>Gs. 450.000</strong>Inversión</div>
+          <div><strong>Próx. inicio</strong>Marzo 2025</div>
+        </div>
+        <div style="margin-top:1.5rem;"><button class="btn-primary">Inscribirme</button></div>
+      </div>
+
+      <div class="curso-card">
+        <span class="curso-badge badge-presencial">Presencial</span>
+        <h3 class="curso-title">Taller de materiales mixtos</h3>
+        <p class="curso-desc">Exploramos texturas, soportes y materiales no convencionales para ampliar tu lenguaje plástico.</p>
+        <div class="curso-meta">
+          <div><strong>4 encuentros</strong>Duración</div>
+          <div><strong>Gs. 280.000</strong>Inversión</div>
+          <div><strong>Cupos limitados</strong>Modalidad</div>
+        </div>
+        <div style="margin-top:1.5rem;"><button class="btn-primary">Ver fechas</button></div>
+      </div>
+
+      <div class="curso-card">
+        <span class="curso-badge badge-online">Grabado · Autopaced</span>
+        <h3 class="curso-title">Pintura intuitiva</h3>
+        <p class="curso-desc">Un curso de acceso permanente para descubrir tu voz creativa a través de la pintura sin juicio.</p>
+        <div class="curso-meta">
+          <div><strong>12 módulos</strong>Contenido</div>
+          <div><strong>Gs. 380.000</strong>Inversión</div>
+          <div><strong>Acceso de por vida</strong>Tipo</div>
+        </div>
+        <div style="margin-top:1.5rem;"><button class="btn-primary">Comenzar ahora</button></div>
+      </div>
+
+      <div class="curso-card">
+        <span class="curso-badge badge-presencial">Presencial · Intensivo</span>
+        <h3 class="curso-title">Retiro de arte y naturaleza</h3>
+        <p class="curso-desc">Tres días en inmersión creativa. Arte, paisaje y comunidad en un espacio fuera de la ciudad.</p>
+        <div class="curso-meta">
+          <div><strong>3 días</strong>Duración</div>
+          <div><strong>Gs. 850.000</strong>Inversión</div>
+          <div><strong>8 personas máx.</strong>Cupos</div>
+        </div>
+        <div style="margin-top:1.5rem;"><button class="btn-primary">Más información</button></div>
+      </div>
+
+    </div>
+    <div class="footer">
+      <p class="footer-text">¿Tenés dudas? <span style="cursor:pointer; text-decoration:underline;" onclick="navTo('contacto')">Escribime</span></p>
+      <div class="footer-links"><a href="#" onclick="navTo('contacto')">Consultar disponibilidad</a></div>
+    </div>
+  </section>
+
+  <!-- ========== SOBRE MÍ ========== -->
+  <section id="sobre">
+    <div class="sobre-hero">
+      <div class="sobre-img">
+        <!-- REEMPLAZAR con foto real: <img src="foto-artista.jpg" alt="Nombre artista"> -->
+        Foto de la artista
+      </div>
+      <div class="sobre-text paper paper-lines">
+        <span class="section-label">Mi historia</span>
+        <!-- REEMPLAZAR con cita real -->
+        <blockquote class="sobre-quote">"El arte no es lo que ves, sino lo que haces ver a los demás."</blockquote>
+        <!-- REEMPLAZAR con bio real -->
+        <p class="sobre-bio">Soy [nombre de la artista], artista visual con base en Asunción, Paraguay. Mi trabajo explora la tensión entre lo efímero y lo permanente, usando la materia como registro de tiempo y emoción.</p>
+        <p class="sobre-bio">Estudié en [institución] y desde entonces he exhibido en espacios nacionales e internacionales. Creo que el arte tiene el poder de transformar la manera en que habitamos el mundo.</p>
+        <p class="sobre-bio">Cuando no estoy en el taller, enseño a otros a encontrar su propio lenguaje visual a través de mis cursos y talleres.</p>
+        <button class="btn-outline" style="margin-top:1rem;" onclick="navTo('contacto')">Trabajemos juntos</button>
+      </div>
+    </div>
+    <!-- REEMPLAZAR números con datos reales -->
+    <div class="sobre-stats">
+      <div class="stat"><span class="stat-num">+80</span><span class="stat-label">Obras creadas</span></div>
+      <div class="stat"><span class="stat-num">12</span><span class="stat-label">Exposiciones</span></div>
+      <div class="stat"><span class="stat-num">+200</span><span class="stat-label">Alumnos formados</span></div>
+    </div>
+    <div class="footer">
+      <p class="footer-text">© 2024 · Artista Visual</p>
+      <div class="footer-links">
+        <a href="#" onclick="navTo('contacto')">Contacto</a>
+        <a href="https://instagram.com/tu_usuario" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACTO ========== -->
+  <section id="contacto">
+    <div class="contacto-layout">
+      <div class="contacto-left">
+        <div>
+          <span class="section-label">Hablemos</span>
+          <h1 class="section-title">¿Tenés algo en mente?</h1>
+          <p class="section-desc">Encargos personalizados, consultas sobre obras, colaboraciones o simplemente escribirme. Estoy aquí.</p>
+          <div class="contacto-info">
+            <!-- REEMPLAZAR con datos reales -->
+            <div class="contacto-info-item">
+              <p class="contacto-info-label">Email</p>
+              <p class="contacto-info-value">hola@artista.com</p>
+            </div>
+            <div class="contacto-info-item">
+              <p class="contacto-info-label">WhatsApp</p>
+              <p class="contacto-info-value">+595 9XX XXX XXX</p>
+            </div>
+            <div class="contacto-info-item">
+              <p class="contacto-info-label">Instagram</p>
+              <p class="contacto-info-value">@artista</p>
+            </div>
+            <div class="contacto-info-item">
+              <p class="contacto-info-label">Horario</p>
+              <p class="contacto-info-value">Lun–Vie · 9:00 a 18:00</p>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:11px; color:rgba(250,247,242,0.25); letter-spacing:0.05em;">© 2024 · Artista Visual</div>
+      </div>
+      <div class="contacto-right paper paper-lines">
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--charcoal); margin-bottom:2.5rem;">Enviame un mensaje</h2>
+        <!-- Conectar este form a un servicio como Formspree, Netlify Forms, etc. -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-input" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="tu@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Asunto</label>
+          <input type="text" class="form-input" placeholder="¿De qué se trata?">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje</label>
+          <textarea class="form-textarea" placeholder="Contame en qué puedo ayudarte..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; text-align:center;">Enviar mensaje</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function navTo(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const t = document.getElementById(id);
+    if (t) { t.classList.add('active'); window.scrollTo(0, 0); }
+    const l = document.querySelector(`.nav-links a[data-section="${id}"]`);
+    if (l) l.classList.add('active');
+    const sb = document.getElementById('sidebar');
+    if (sb.classList.contains('open')) sb.classList.remove('open');
+  }
+
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      navTo(this.dataset.section);
+    });
+  });
+
+  document.getElementById('navToggle').addEventListener('click', () =>
+    document.getElementById('sidebar').classList.toggle('open')
+  );
+
+  document.addEventListener('click', e => {
+    const sb = document.getElementById('sidebar');
+    const tog = document.getElementById('navToggle');
+    if (sb.classList.contains('open') && !sb.contains(e.target) && !tog.contains(e.target))
+      sb.classList.remove('open');
+  });
+</script>
+</body>
+</html>
