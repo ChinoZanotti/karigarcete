@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-bd84d8c0-f00c-4a53-b176-55846677aa47/styles.css">
+<script src="_ds/organic-bd84d8c0-f00c-4a53-b176-55846677aa47/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: #f5ead8; }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent-600); text-decoration: underline; }
+  @keyframes kg-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes kg-slide { from { transform: translateX(100%); } to { transform: none; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden">
+
+  <header style="position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--color-bg) 92%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider)">
+    <div style="max-width:1240px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px">
+      <a href="#inicio" onClick="{{ goHome }}" style="display:block;flex:none" aria-label="Karina Garcete — Inicio">
+        <img src="assets/logo-kari.svg" alt="Karina Garcete" style="height:46px;width:auto">
+      </a>
+      <nav style="display:flex;align-items:center;gap:34px">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+          <button type="button" onClick="{{ item.go }}" style="background:none;border:0;padding:4px 0;cursor:pointer;font:inherit;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-neutral-800);position:relative" style-hover="color:var(--color-accent-700)">
+            {{ item.label }}
+            <span style="position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--color-accent);opacity: {{ item.op }}"></span>
+          </button>
+        </sc-for>
+        <button type="button" onClick="{{ openCart }}" class="btn btn-secondary" style="border-radius:999px;gap:8px;font-family:var(--font-body);font-weight:600;letter-spacing:0.04em">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle><path d="M2 3h2.5l2.2 11.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L21 7H5"></path></svg>
+          {{ cartCount }}
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main id="inicio">
+
+    <section style="max-width:1240px;margin:0 auto;padding:88px 40px 96px;display:grid;grid-template-columns:1fr 0.92fr;gap:72px;align-items:center">
+      <div style="animation:kg-rise 0.7s ease both">
+        <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 26px">Acuarela · Paraguay</p>
+        <h1 style="font-family:var(--font-heading);font-size:clamp(40px,4.6vw,64px);line-height:1.04;letter-spacing:-0.02em;margin:0 0 28px;max-width:15ch">Las aves y los paisajes que nos rodean</h1>
+        <p style="font-size:19px;line-height:1.65;max-width:44ch;color:var(--color-neutral-800);margin:0 0 36px">Karina Garcete pinta en acuarela sobre papel y sobre lienzo. Colibríes, garzas, palmares y esteros: lo que vive cerca, mirado con calma.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px">
+          <button type="button" onClick="{{ goShop }}" class="btn btn-primary" style="border-radius:999px;padding:13px 26px;font-size:15px">Ver la tienda</button>
+          <button type="button" onClick="{{ goAbout }}" class="btn btn-secondary" style="border-radius:999px;padding:13px 26px;font-size:15px;font-family:var(--font-body);font-weight:600">Conocer a Karina</button>
+        </div>
+      </div>
+      <figure class="washed" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);aspect-ratio:4/5">
+        <img src="assets/hero-colibri.jpg" alt="Karina Garcete colgando una acuarela de colibrí" style="width:100%;height:100%;object-fit:cover">
+      </figure>
+    </section>
+
+    <section style="max-width:1240px;margin:0 auto;padding:0 40px 104px;display:grid;grid-template-columns:0.82fr 1fr;gap:80px;align-items:center">
+      <figure class="washed" style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:3/4">
+        <img src="assets/serie-palmares.jpg" alt="Karina Garcete apoyada sobre una acuarela de palmares" style="width:100%;height:100%;object-fit:cover">
+      </figure>
+      <div>
+        <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 22px">Sobre mí</p>
+        <h2 style="font-family:var(--font-heading);font-size:clamp(28px,2.8vw,40px);line-height:1.1;margin:0 0 26px;max-width:22ch">Pinto lo que veo cuando me quedo quieta</h2>
+        <p style="font-size:17px;color:var(--color-neutral-800);margin:0 0 18px;max-width:52ch">Trabajo con agua, pigmento y papel de algodón. La acuarela no se domina: se acompaña. Dejo que el color se abra solo y después entro con el pincel fino, ahí donde una pluma o una hoja piden precisión.</p>
+        <p style="font-size:17px;color:var(--color-neutral-800);margin:0 0 28px;max-width:52ch">Mis temas vienen de mirar cerca: un colibrí en la rama, la garza quieta en el estero, la línea de palmares contra la luz de la tarde.</p>
+        <button type="button" onClick="{{ goAbout }}" class="btn btn-ghost" style="font-family:var(--font-body);font-weight:600;font-size:15px;padding:0">Leer la biografía →</button>
+      </div>
+    </section>
+
+    <section style="max-width:1240px;margin:0 auto;padding:0 40px 108px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:44px;flex-wrap:wrap">
+        <div>
+          <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 18px">Obras destacadas</p>
+          <h2 style="font-family:var(--font-heading);font-size:clamp(28px,2.8vw,40px);line-height:1.1;margin:0;max-width:20ch">Una selección del taller</h2>
+        </div>
+        <button type="button" onClick="{{ goShop }}" class="btn btn-ghost" style="font-family:var(--font-body);font-weight:600;font-size:15px">Ver todas las obras →</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+        <sc-for list="{{ featured }}" as="obra" hint-placeholder-count="3">
+          <figure style="margin:0">
+            <div class="washed" style="border-radius:var(--radius-md);overflow:hidden;aspect-ratio:4/5;margin-bottom:18px">
+              <img src="{{ obra.img }}" alt="{{ obra.title }}" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <figcaption style="font-size:14px;margin:0">
+              <span style="display:block;font-family:var(--font-heading);font-size:20px;line-height:1.2;color:var(--color-text);margin-bottom:7px">{{ obra.title }}</span>
+              <span style="display:block;color:var(--color-neutral-700);font-size:14px">{{ obra.meta }}</span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:var(--color-surface);padding:100px 0">
+      <div style="max-width:1240px;margin:0 auto;padding:0 40px">
+        <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 18px">Series</p>
+        <h2 style="font-family:var(--font-heading);font-size:clamp(28px,2.8vw,40px);line-height:1.1;margin:0 0 48px;max-width:24ch">Tres cuadernos abiertos a la vez</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:36px">
+          <sc-for list="{{ series }}" as="s" hint-placeholder-count="3">
+            <article style="display:flex;flex-direction:column;gap:16px">
+              <span style="width:46px;height:46px;border-radius:999px;background:var(--color-accent-2-300);display:grid;place-items:center;font-family:var(--font-heading);font-size:17px;color:var(--color-accent-2-800)">{{ s.n }}</span>
+              <h3 style="font-family:var(--font-heading);font-size:24px;line-height:1.15;margin:0">{{ s.name }}</h3>
+              <p style="margin:0;font-size:16px;color:var(--color-neutral-800)">{{ s.text }}</p>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width:1240px;margin:0 auto;padding:104px 40px">
+      <div style="display:grid;grid-template-columns:1fr 0.85fr;gap:76px;align-items:center">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:end">
+          <figure class="washed" style="border-radius:var(--radius-md);overflow:hidden;aspect-ratio:3/4">
+            <img src="assets/taller-silla.jpg" alt="El taller de Karina Garcete" style="width:100%;height:100%;object-fit:cover">
+          </figure>
+          <figure class="washed" style="border-radius:var(--radius-md);overflow:hidden;aspect-ratio:1/1">
+            <img src="assets/proceso-aguada.jpg" alt="Una aguada de verdes sobre papel" style="width:100%;height:100%;object-fit:cover">
+          </figure>
+        </div>
+        <div>
+          <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 22px">El taller</p>
+          <h2 style="font-family:var(--font-heading);font-size:clamp(28px,2.8vw,38px);line-height:1.1;margin:0 0 26px;max-width:20ch">Piso de baldosa, luz de la mañana</h2>
+          <p style="font-size:17px;color:var(--color-neutral-800);margin:0 0 18px;max-width:50ch">Cada obra empieza con una aguada grande: agua y color corriendo libres sobre el papel. Cuando seca, aparece el paisaje que estaba escondido ahí.</p>
+          <p style="font-size:17px;color:var(--color-neutral-800);margin:0;max-width:50ch">Después vienen los días de detalle. Las originales se montan en marco de madera clara; los prints se imprimen en papel de algodón y se firman uno por uno.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:var(--color-accent-2-800);color:var(--color-neutral-100);padding:88px 0">
+      <div style="max-width:1240px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
+        <div>
+          <h2 style="font-family:var(--font-heading);font-size:clamp(26px,2.6vw,36px);line-height:1.1;margin:0 0 12px;color:var(--color-neutral-100)">Llevá una obra a tu casa</h2>
+          <p style="margin:0;font-size:17px;color:var(--color-accent-2-200)">Originales, prints firmados y papelería. Envíos a todo el Paraguay.</p>
+        </div>
+        <button type="button" onClick="{{ goShop }}" class="btn" style="border-radius:999px;padding:14px 30px;font-size:15px;background:var(--color-neutral-100);color:var(--color-accent-2-900)" style-hover="background:var(--color-accent-2-200)">Ir a la tienda</button>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isShop }}" hint-placeholder-val="{{ false }}">
+  <main id="tienda" style="max-width:1240px;margin:0 auto;padding:80px 40px 110px">
+    <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 20px">Tienda</p>
+    <h1 style="font-family:var(--font-heading);font-size:clamp(34px,4vw,52px);line-height:1.05;margin:0 0 20px;max-width:18ch">Obras y objetos</h1>
+    <p style="font-size:18px;color:var(--color-neutral-800);max-width:56ch;margin:0 0 44px">Precios en guaraníes. El pedido se confirma por WhatsApp: te escribimos para coordinar el pago y el envío.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="7">
+        <button type="button" onClick="{{ cat.go }}" class="tag" style="cursor:pointer;border:1px solid var(--color-divider);font-size:13px;padding:8px 16px;border-radius:999px;background: {{ cat.bg }};color: {{ cat.fg }}">{{ cat.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:40px 32px">
+      <sc-for list="{{ visibleProducts }}" as="p" hint-placeholder-count="6">
+        <article style="display:flex;flex-direction:column">
+          <div style="border-radius:var(--radius-md);overflow:hidden;aspect-ratio:4/5;background:var(--color-surface);margin-bottom:18px;position:relative">
+            <sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ p.img }}" alt="{{ p.title }}" class="washed" style="width:100%;height:100%;object-fit:cover">
+            </sc-if>
+            <sc-if value="{{ p.isSlot }}" hint-placeholder-val="{{ false }}">
+              <image-slot id="{{ p.slotId }}" shape="rect" placeholder="{{ p.slotHint }}"></image-slot>
+            </sc-if>
+          </div>
+          <span style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-2-700);margin-bottom:9px">{{ p.cat }}</span>
+          <h3 style="font-family:var(--font-heading);font-size:21px;line-height:1.2;margin:0 0 8px">{{ p.title }}</h3>
+          <p style="margin:0 0 18px;font-size:14px;color:var(--color-neutral-700)">{{ p.meta }}</p>
+          <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid var(--color-divider);padding-top:16px">
+            <span style="font-size:17px;font-weight:600">{{ p.priceLabel }}</span>
+            <sc-if value="{{ p.canBuy }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ p.add }}" class="btn btn-primary" style="border-radius:999px;padding:9px 18px;font-size:14px">Agregar</button>
+            </sc-if>
+            <sc-if value="{{ p.askOnly }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ waHref }}" target="_blank" rel="noopener" class="btn btn-secondary" style="border-radius:999px;padding:9px 18px;font-size:14px;font-family:var(--font-body);font-weight:600;text-decoration:none">Consultar</a>
+            </sc-if>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <main id="sobre-mi">
+    <section style="max-width:1240px;margin:0 auto;padding:80px 40px 96px;display:grid;grid-template-columns:1fr 0.85fr;gap:76px;align-items:start">
+      <div>
+        <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 20px">Sobre mí</p>
+        <h1 style="font-family:var(--font-heading);font-size:clamp(34px,4vw,52px);line-height:1.05;margin:0 0 32px;max-width:16ch">Karina Garcete</h1>
+        <p style="font-size:19px;line-height:1.6;color:var(--color-neutral-900);margin:0 0 22px;max-width:52ch">Soy artista visual y trabajo en acuarela. Vivo y pinto en Paraguay, rodeada de los paisajes que aparecen una y otra vez en mi obra.</p>
+        <p style="font-size:17px;color:var(--color-neutral-800);margin:0 0 20px;max-width:54ch">Empecé pintando para mí, en cuadernos chicos, con una caja de acuarelas que cabía en la mano. Con los años el formato creció hasta el lienzo grande, pero la manera de trabajar sigue siendo la misma: mojar el papel, dejar que el color decida y recién después buscar la forma.</p>
+        <p style="font-size:17px;color:var(--color-neutral-800);margin:0 0 20px;max-width:54ch">Pinto aves porque me obligan a mirar despacio. Un colibrí no se queda quieto: hay que aprenderlo de memoria. En el camino aparecieron también los palmares, los esteros y el follaje visto de muy cerca, y con ellos las series que hoy sostienen mi trabajo.</p>
+        <p style="font-size:17px;color:var(--color-neutral-800);margin:0 0 34px;max-width:54ch">Además de las obras originales hago prints firmados, papelería y talleres, para que la acuarela salga del taller y entre en las casas de otras personas.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px">
+          <button type="button" onClick="{{ goShop }}" class="btn btn-primary" style="border-radius:999px;padding:13px 26px;font-size:15px">Ver las obras</button>
+          <button type="button" onClick="{{ goContact }}" class="btn btn-secondary" style="border-radius:999px;padding:13px 26px;font-size:15px;font-family:var(--font-body);font-weight:600">Escribirme</button>
+        </div>
+      </div>
+      <figure class="washed" style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:3/4;box-shadow:var(--shadow-md)">
+        <img src="assets/serie-aves-garza.jpg" alt="Retrato de Karina Garcete con una de sus obras" style="width:100%;height:100%;object-fit:cover">
+      </figure>
+    </section>
+
+    <section style="background:var(--color-surface);padding:96px 0">
+      <div style="max-width:1240px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:0.9fr 1fr;gap:72px;align-items:center">
+        <figure class="washed" style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:3/4">
+          <img src="assets/kari-galeria.jpg" alt="Karina Garcete sentada en su taller entre sus obras" style="width:100%;height:100%;object-fit:cover">
+        </figure>
+        <div>
+          <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 20px">Las series</p>
+          <h2 style="font-family:var(--font-heading);font-size:clamp(26px,2.6vw,36px);line-height:1.1;margin:0 0 34px;max-width:20ch">En qué estoy trabajando</h2>
+          <div style="display:flex;flex-direction:column;gap:26px">
+            <sc-for list="{{ series }}" as="s" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start">
+                <span style="width:40px;height:40px;border-radius:999px;background:var(--color-accent-200);display:grid;place-items:center;font-family:var(--font-heading);font-size:15px;color:var(--color-accent-800)">{{ s.n }}</span>
+                <div>
+                  <h3 style="font-family:var(--font-heading);font-size:21px;line-height:1.2;margin:0 0 7px">{{ s.name }}</h3>
+                  <p style="margin:0;font-size:16px;color:var(--color-neutral-800);max-width:46ch">{{ s.text }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width:1240px;margin:0 auto;padding:96px 40px">
+      <figure class="washed" style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9">
+        <img src="assets/kari-retrato.jpg" alt="Vista general del taller con obras y caballete" style="width:100%;height:100%;object-fit:cover">
+      </figure>
+      <p style="margin:22px 0 0;font-size:14px;color:var(--color-neutral-700)">El taller: caballete, marcos de madera clara y las obras en curso apoyadas contra la pared.</p>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+  <main id="contacto" style="max-width:1240px;margin:0 auto;padding:80px 40px 110px">
+    <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 20px">Contacto</p>
+    <h1 style="font-family:var(--font-heading);font-size:clamp(34px,4vw,52px);line-height:1.05;margin:0 0 20px;max-width:18ch">Hablemos</h1>
+    <p style="font-size:18px;color:var(--color-neutral-800);max-width:56ch;margin:0 0 56px">Encargos, envíos, talleres o simplemente saludar. Respondo personalmente.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 0.85fr;gap:72px;align-items:start">
+      <div>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submit }}" style="display:flex;flex-direction:column;gap:20px;max-width:520px">
+            <div class="field">
+              <label for="kg-nombre">Nombre</label>
+              <input class="input" id="kg-nombre" name="nombre" type="text" required="true" placeholder="Tu nombre">
+            </div>
+            <div class="field">
+              <label for="kg-email">Email</label>
+              <input class="input" id="kg-email" name="email" type="email" required="true" placeholder="tu@correo.com">
+            </div>
+            <div class="field">
+              <label for="kg-mensaje">Mensaje</label>
+              <textarea class="input" id="kg-mensaje" name="mensaje" rows="6" required="true" placeholder="Contame qué tenés en mente: obra, tamaño, para cuándo."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="border-radius:999px;padding:13px 28px;font-size:15px;align-self:flex-start">Enviar mensaje</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:520px;background:var(--color-accent-2-200);border-radius:var(--radius-lg);padding:36px 34px">
+            <h2 style="font-family:var(--font-heading);font-size:24px;margin:0 0 12px;color:var(--color-accent-2-900)">¡Gracias!</h2>
+            <p style="margin:0;font-size:16px;color:var(--color-accent-2-900)">Recibí tu mensaje y te escribo en las próximas horas. Si es urgente, escribime por WhatsApp.</p>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:44px;padding-top:36px;border-top:1px solid var(--color-divider);max-width:520px">
+          <h2 style="font-family:var(--font-heading);font-size:22px;margin:0 0 14px">Envíos</h2>
+          <p style="margin:0 0 10px;font-size:16px;color:var(--color-neutral-800)">Enviamos a todo el Paraguay. Las obras enmarcadas viajan embaladas en caja rígida; los prints, en tubo o carpeta con cartón de refuerzo.</p>
+          <p style="margin:0;font-size:16px;color:var(--color-neutral-800)">Retiro en el taller con cita previa. Envíos internacionales, a consultar.</p>
+        </div>
+      </div>
+
+      <aside style="display:flex;flex-direction:column;gap:26px">
+        <figure class="washed" style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5">
+          <img src="assets/kari-contacto.jpg" alt="Karina Garcete con sus pinceles" style="width:100%;height:100%;object-fit:cover">
+        </figure>
+        <a href="{{ waHref }}" target="_blank" rel="noopener" class="btn" style="border-radius:999px;padding:14px 24px;font-size:15px;background:var(--color-accent-2-700);color:var(--color-neutral-100);text-decoration:none;gap:10px" style-hover="background:var(--color-accent-2-800)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 20.5l1.7-5.5A8.4 8.4 0 1 1 21 11.5z"></path></svg>
+          Escribir por WhatsApp
+        </a>
+        <div style="background:var(--color-surface);border-radius:var(--radius-lg);padding:28px">
+          <h2 style="font-family:var(--font-heading);font-size:19px;margin:0 0 16px">El taller</h2>
+          <p style="margin:0 0 6px;font-size:15px;color:var(--color-neutral-800)">{{ direccion }}</p>
+          <p style="margin:0 0 18px;font-size:15px;color:var(--color-neutral-700)">Visitas con cita previa</p>
+          <a href="{{ mapHref }}" target="_blank" rel="noopener" style="font-size:15px;font-weight:600">Ver en el mapa →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+          <a href="{{ igHref }}" target="_blank" rel="noopener">Instagram · {{ instagram }}</a>
+          <a href="{{ mailHref }}">{{ email }}</a>
+          <a href="{{ storeHref }}" target="_blank" rel="noopener">Tienda online</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+  </sc-if>
+
+  <footer style="background:var(--color-neutral-900);color:var(--color-neutral-300);padding:64px 0 40px;margin-top:0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;align-items:start">
+      <div>
+        <img src="assets/logo-kari.svg" alt="Karina Garcete" style="height:52px;width:auto;filter:invert(1) brightness(1.9) saturate(0);margin-bottom:18px">
+        <p style="margin:0;font-size:15px;color:var(--color-neutral-400);max-width:34ch">Acuarelas de las aves y los paisajes del Paraguay.</p>
+      </div>
+      <nav style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+          <button type="button" onClick="{{ item.go }}" style="background:none;border:0;padding:0;text-align:left;cursor:pointer;font:inherit;font-size:15px;color:var(--color-neutral-300)" style-hover="color:var(--color-neutral-100)">{{ item.label }}</button>
+        </sc-for>
+      </nav>
+      <div style="display:flex;flex-direction:column;gap:11px;font-size:15px">
+        <a href="{{ igHref }}" target="_blank" rel="noopener" style="color:var(--color-neutral-300)" style-hover="color:var(--color-neutral-100)">Instagram</a>
+        <a href="{{ waHref }}" target="_blank" rel="noopener" style="color:var(--color-neutral-300)" style-hover="color:var(--color-neutral-100)">WhatsApp</a>
+        <a href="{{ mailHref }}" style="color:var(--color-neutral-300)" style-hover="color:var(--color-neutral-100)">Email</a>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:48px auto 0;padding:24px 40px 0;border-top:1px solid var(--color-neutral-800);font-size:13px;color:var(--color-neutral-500)">© 2026 Karina Garcete. Todas las obras son de la artista.</div>
+  </footer>
+
+  <sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCart }}" style="position:fixed;inset:0;z-index:80;background:color-mix(in srgb, var(--color-neutral-900) 42%, transparent)"></div>
+    <aside style="position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(420px,92vw);background:var(--color-bg);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;animation:kg-slide 0.28s ease both">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 28px;border-bottom:1px solid var(--color-divider)">
+        <h2 style="font-family:var(--font-heading);font-size:22px;margin:0">Tu pedido</h2>
+        <button type="button" onClick="{{ closeCart }}" class="btn btn-icon btn-secondary" style="border-radius:999px" aria-label="Cerrar">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:24px 28px">
+        <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:0;font-size:16px;color:var(--color-neutral-700)">Todavía no agregaste nada. Mirá las obras en la tienda.</p>
+        </sc-if>
+        <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="0">
+          <div style="display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--color-divider)">
+            <div style="width:64px;height:78px;border-radius:var(--radius-sm);overflow:hidden;background:var(--color-surface)">
+              <sc-if value="{{ line.hasPhoto }}" hint-placeholder-val="{{ true }}">
+                <img src="{{ line.img }}" alt="{{ line.title }}" style="width:100%;height:100%;object-fit:cover">
+              </sc-if>
+            </div>
+            <div>
+              <p style="margin:0 0 4px;font-size:15px;font-weight:600">{{ line.title }}</p>
+              <p style="margin:0;font-size:13px;color:var(--color-neutral-700)">{{ line.qtyLabel }} · {{ line.priceLabel }}</p>
+            </div>
+            <button type="button" onClick="{{ line.remove }}" class="btn btn-ghost" style="font-size:13px;font-family:var(--font-body);font-weight:600">Quitar</button>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:24px 28px;border-top:1px solid var(--color-divider)">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px">
+          <span style="font-size:15px;color:var(--color-neutral-700)">Total</span>
+          <span style="font-family:var(--font-heading);font-size:24px">{{ cartTotal }}</span>
+        </div>
+        <a href="{{ waOrderHref }}" target="_blank" rel="noopener" class="btn btn-primary btn-block" style="border-radius:999px;padding:14px;font-size:15px;text-decoration:none">Confirmar por WhatsApp</a>
+        <p style="margin:14px 0 0;font-size:13px;color:var(--color-neutral-700);text-align:center">El pago y el envío se coordinan por mensaje.</p>
+      </div>
+    </aside>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;595981123456&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Datos de contacto&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hola@karinagarcete.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Datos de contacto&quot;},&quot;instagram&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;@losdibujosdekari&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Datos de contacto&quot;},&quot;direccion&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Asunción, Paraguay&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Datos de contacto&quot;},&quot;showPrices&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tienda&quot;}}">
+const PRODUCTS = [
+  { id: 'colibries', title: 'Colibríes', cat: 'Prints', serie: 'Aves del Paraguay', medium: 'Acuarela sobre papel', size: '21 × 30 cm', price: 250000, img: 'assets/obra-colibri-luz.jpg' },
+  { id: 'aves-15', title: 'Aves del Paraguay 15×21', cat: 'Prints', serie: 'Aves del Paraguay', medium: 'Print firmado sobre papel de algodón', size: '15 × 21 cm', price: 150000, img: 'assets/obra-colibri-enmarcado.jpg' },
+  { id: 'aves-21', title: 'Aves del Paraguay 21×30', cat: 'Prints', serie: 'Aves del Paraguay', medium: 'Print firmado sobre papel de algodón', size: '21 × 30 cm', price: 250000, img: 'assets/obra-colibri-ventana.jpg' },
+  { id: 'aves-30', title: 'Aves del Paraguay 30×40', cat: 'Prints', serie: 'Aves del Paraguay', medium: 'Print firmado sobre papel de algodón', size: '30 × 40 cm', price: 450000, img: 'assets/obra-colibri-balcon.jpg' },
+  { id: 'somos-naturaleza', title: 'Somos Naturaleza', cat: 'Obra original enmarcada', serie: 'Hojas', medium: 'Acuarela sobre papel, enmarcada', size: '45 × 55 cm', price: 1500000, slotHint: 'Foto de “Somos Naturaleza”' },
+  { id: 'tierra-1', title: 'Serie Tierra I', cat: 'Obra original enmarcada', serie: 'Tierra', medium: 'Acuarela sobre lienzo', size: '50 × 50 cm', price: 1500000, slotHint: 'Foto de “Serie Tierra I”' },
+  { id: 'tierra-2', title: 'Serie Tierra II', cat: 'Obra original enmarcada', serie: 'Tierra', medium: 'Acuarela sobre lienzo', size: '60 × 90 cm', price: 1700000, slotHint: 'Foto de “Serie Tierra II”' },
+  { id: 'colibri-lienzo', title: 'Colibrí', cat: 'Obra original enmarcada', serie: 'Aves del Paraguay', medium: 'Acuarela sobre lienzo, marco de madera', size: '80 × 80 cm', price: null, img: 'assets/obra-en-casa.jpg' },
+  { id: 'calendario', title: 'Calendario 2026', cat: 'Papelería', serie: '', medium: 'Impresión a color, 12 láminas', size: '12 × 16 cm', price: 135000, slotHint: 'Foto del calendario' },
+  { id: 'block', title: 'Block de pintura', cat: 'Papelería', serie: '', medium: 'Papel para acuarela, 20 hojas', size: '15 × 21 cm', price: 150000, slotHint: 'Foto del block' },
+  { id: 'tote', title: 'Tote bag de lienzo', cat: 'Accesorios', serie: '', medium: 'Serigrafía sobre lienzo crudo', size: '38 × 42 cm', price: null, slotHint: 'Foto del tote bag' },
+  { id: 'encargo', title: 'Encargo personalizado', cat: 'Encargos personalizados', serie: '', medium: 'Acuarela sobre papel o lienzo', size: 'Tamaño a elección', price: null, img: 'assets/proceso-aguada.jpg' },
+  { id: 'taller', title: 'Taller de acuarela', cat: 'Talleres / clases', serie: '', medium: 'Encuentro presencial, grupo reducido', size: 'Materiales incluidos', price: null, img: 'assets/kari-pintando.jpg' }
+];
+
+const CATS = ['Todo', 'Obra original enmarcada', 'Prints', 'Papelería', 'Accesorios', 'Encargos personalizados', 'Talleres / clases'];
+
+class Component extends DCLogic {
+  state = { page: 'home', cat: 'Todo', cart: {}, cartOpen: false, sent: false };
+
+  go = (page) => {
+    this.setState({ page: page, cartOpen: false, sent: false });
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  };
+
+  gs(n) {
+    return '₲' + Math.round(n).toLocaleString('es-PY').replace(/,/g, '.');
+  }
+
+  renderVals() {
+    const wa = (this.props.whatsapp || '595981123456').replace(/[^0-9]/g, '');
+    const showPrices = this.props.showPrices !== false;
+    const email = this.props.email || 'hola@karinagarcete.com';
+    const instagram = this.props.instagram || '@losdibujosdekari';
+    const direccion = this.props.direccion || 'Asunción, Paraguay';
+    const cart = this.state.cart;
+    const page = this.state.page;
+
+    const byId = {};
+    PRODUCTS.forEach(p => { byId[p.id] = p; });
+
+    const ids = Object.keys(cart).filter(k => cart[k] > 0);
+    let total = 0;
+    const cartLines = ids.map(id => {
+      const p = byId[id];
+      const qty = cart[id];
+      total += (p.price || 0) * qty;
+      return {
+        title: p.title,
+        img: p.img || '',
+        hasPhoto: !!p.img,
+        qtyLabel: qty + (qty > 1 ? ' unidades' : ' unidad'),
+        priceLabel: p.price ? this.gs(p.price * qty) : 'A consultar',
+        remove: () => this.setState(s => {
+          const c = Object.assign({}, s.cart);
+          delete c[id];
+          return { cart: c };
+        })
+      };
+    });
+    const count = ids.reduce((a, id) => a + cart[id], 0);
+
+    const orderText = ids.length
+      ? 'Hola Karina! Quiero confirmar este pedido:%0A' + ids.map(id => '· ' + byId[id].title + ' × ' + cart[id]).join('%0A') + '%0ATotal: ' + this.gs(total)
+      : 'Hola Karina! Quiero consultar por una obra.';
+
+    const products = PRODUCTS.filter(p => this.state.cat === 'Todo' || p.cat === this.state.cat).map(p => {
+      const meta = [p.medium, p.size].filter(Boolean).join(' · ');
+      return {
+        title: p.title,
+        cat: p.serie || p.cat,
+        meta: meta,
+        img: p.img || '',
+        hasPhoto: !!p.img,
+        isSlot: !p.img,
+        slotId: 'kg-' + p.id,
+        slotHint: p.slotHint || 'Arrastrá una foto',
+        priceLabel: p.price && showPrices ? this.gs(p.price) : 'A consultar',
+        canBuy: !!p.price,
+        askOnly: !p.price,
+        add: () => this.setState(s => {
+          const c = Object.assign({}, s.cart);
+          c[p.id] = (c[p.id] || 0) + 1;
+          return { cart: c, cartOpen: true };
+        })
+      };
+    });
+
+    return {
+      isHome: page === 'home',
+      isShop: page === 'shop',
+      isAbout: page === 'about',
+      isContact: page === 'contact',
+      goHome: (e) => { if (e && e.preventDefault) e.preventDefault(); this.go('home'); },
+      goShop: () => this.go('shop'),
+      goAbout: () => this.go('about'),
+      goContact: () => this.go('contact'),
+      navItems: [
+        { label: 'Inicio', go: () => this.go('home'), op: page === 'home' ? 1 : 0 },
+        { label: 'Tienda', go: () => this.go('shop'), op: page === 'shop' ? 1 : 0 },
+        { label: 'Sobre mí', go: () => this.go('about'), op: page === 'about' ? 1 : 0 },
+        { label: 'Contacto', go: () => this.go('contact'), op: page === 'contact' ? 1 : 0 }
+      ],
+      featured: [
+        { title: 'Colibrí', meta: 'Acuarela sobre lienzo · 80 × 80 cm', img: 'assets/obra-en-casa.jpg' },
+        { title: 'Colibrí en la rama', meta: 'Acuarela sobre papel · 21 × 30 cm', img: 'assets/obra-colibri-enmarcado.jpg' },
+        { title: 'Serie Aves del Paraguay', meta: 'Tres obras en el taller', img: 'assets/taller-completo.jpg' }
+      ],
+      series: [
+        { n: '01', name: 'Aves del Paraguay', text: 'Colibríes, garzas y chogüíes en acuarela sobre papel. La serie que empezó todo y sigue creciendo.' },
+        { n: '02', name: 'Tierra', text: 'Abstractos sobre lienzo: capas de agua y pigmento que dejan aparecer un horizonte.' },
+        { n: '03', name: 'Hojas', text: 'El follaje visto de muy cerca. De acá nace “Somos Naturaleza”, la obra más grande de la serie.' }
+      ],
+      categories: CATS.map(c => ({
+        label: c,
+        bg: this.state.cat === c ? 'var(--color-accent-700)' : 'transparent',
+        fg: this.state.cat === c ? 'var(--color-neutral-100)' : 'var(--color-neutral-800)',
+        go: () => this.setState({ cat: c })
+      })),
+      visibleProducts: products,
+      cartCount: count > 0 ? String(count) : '0',
+      cartLines: cartLines,
+      cartEmpty: cartLines.length === 0,
+      cartTotal: total > 0 ? this.gs(total) : '—',
+      cartOpen: this.state.cartOpen,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      waHref: 'https://wa.me/' + wa,
+      waOrderHref: 'https://wa.me/' + wa + '?text=' + orderText,
+      mailHref: 'mailto:' + email,
+      email: email,
+      instagram: instagram,
+      igHref: 'https://instagram.com/' + instagram.replace('@', ''),
+      storeHref: 'https://losdibujosdekari.store.link/',
+      direccion: direccion,
+      mapHref: 'https://www.google.com/maps/search/' + encodeURIComponent(direccion)
+    };
+  }
+}
+
+</script>
+</body>
+</html>
